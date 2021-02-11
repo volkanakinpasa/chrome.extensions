@@ -1,0 +1,40 @@
+{
+  "manifest_version": 2,
+  "name": "Chrome Template",
+  "short_name": "chrome_template",
+  //reads from _locales folder based on default_locale below
+  "description": "__MSG_appDesc__",
+  "version": "1.0.0",
+  "default_locale": "en",
+  // activeTab: grants temporary access to the site the user is on.
+  // storage: grants the extension access to the store.
+  // *://*/* : works while you open any website.
+  // "*://*.youtube.com/*" : works on only youtube.com website
+  //the list of permission can be found here https://developer.chrome.com/docs/extensions/mv2/permission_warnings/
+  "permissions": ["activeTab", "storage", "*://*/*"],
+  //content_scripts run in the context of web pages. ie. on youtube.com
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+
+  //Allows users to customise the behavior of an extension by providing an options page
+  //remove the below line if you don't need an option page.
+  "options_page": "options/options.html",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": { "default_title": "Chrome Template" },
+  "icons": { "16": "16.png", "48": "48.png", "128": "128.png" },
+  //web_accessible_resources are  are expected to be usable in the context of a web page.
+  //for example: if you want to load an image on youtube, you must define image file name here in a string.
+  //remove the below line if you don't need it
+  "web_accessible_resources": ["webAccessibleResources/*"],
+  //ie: if you have an API and want to connect to it via content page/extension, you need to define the matched domain here.
+  //remove the below line if you don't need it
+  "externally_connectable": { "matches": ["*://*.yourdomain.com/*"] }
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello, world!</title>
+    <link rel="stylesheet" href="./bootstrap.css" />
+    <link rel="stylesheet" href="./custom.min.css" />
+
+    <script src="./jquery.min.js"></script>
+    <script src="./options.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <a class="navbar-brand" href="#">Chrome Extension Template</a>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="options.html">Options </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="background.html">Background</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="popup.html">Popup</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="popup.html">Content</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Chrome Extension Template</li>
+      <li class="breadcrumb-item active">Options</li>
+    </ol>
+
+    <div class="m-4">
+      <h3>Save option</h3>
+      <p class="lead">
+        The option will be saved in Chrome Storage(not local storage). in order
+        to check the storage, please install the extention
+        <a
+          href="https://chrome.google.com/webstore/detail/storage-area-explorer/ocfjjjjhkpapocigimmppepjgfdecjkb"
+          target="_blank"
+          >"Storage Area Explorer"</a
+        >
+      </p>
+      <div class="row">
+        <div class="">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+              <input
+                type="radio"
+                name="options"
+                id="option1"
+                value="1"
+                autocomplete="off"
+              />
+              Active
+            </label>
+            <label class="btn btn-primary">
+              <input
+                type="radio"
+                name="options"
+                id="option2"
+                value="2"
+                autocomplete="off"
+              />
+              Radio
+            </label>
+            <label class="btn btn-primary">
+              <input
+                type="radio"
+                name="options"
+                id="option3"
+                value="3"
+                autocomplete="off"
+              />
+              Radio
+            </label>
+          </div>
+
+          <div>
+            <pre>
+              <code> 
+                //manifest.json
+                { 
+                ... 
+                "permissions": [ "storage" ], 
+                ... 
+                }
+
+                //options.js
+                chrome.storage.sync.set({key: value}, function() {
+                  console.log('Value is set to ' + value); 
+                });
+                chrome.storage.sync.get(['key'], function(result) {
+                  console.log('Value currently is ' + result.key); 
+                });
+              </code>
+            </pre>
+          </div>
+        </div>
+      </div>
+      <br />
+      <h3>Send a message to background.js</h3>
+      <p class="lead">
+        In order to pass an object from "Option", "Popup", "Content" page to
+        background, you need to use chrome.runtime.sendMessage({}). Once you
+        click on the button, you will see a text 'Hi' on the extension's icon.
+      </p>
+      <p>
+        To debug the message in background.js, right click on the extension >
+        "Manage Extensions" > under "Inspect views" click on "background page".
+      </p>
+      <div>
+        <button type="button" class="btn btn-primary" id="button-send-message">
+          Send
+        </button>
+        <div>
+          <pre>
+            <code> 
+              //options.js >> send message
+              chrome.runtime.sendMessage({
+                type: 'setBadgeText',
+                data: 'Hi',
+              });
+
+              //background.js >> add listener
+              chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+                switch (message.type) {
+                  ...
+                  case 'setBadgeText':
+                    chrome.browserAction.setBadgeText({ text: message.data });
+                    break;
+                  ...  
+                }
+              });
+            </code>
+          </pre>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
