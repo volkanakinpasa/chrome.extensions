@@ -12,29 +12,33 @@
   // "*://*.youtube.com/*" : works on only youtube.com website
   //the list of permission can be found here https://developer.chrome.com/docs/extensions/mv2/permission_warnings/
   "permissions": ["activeTab", "storage", "*://*/*"],
-  //content_scripts run in the context of web pages. ie. on youtube.com
+  //content_scripts run on the web pages user visits. ie. on youtube.com
+  //in this case content.js and content.css will be loaded on youtube.com.
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["content.js"],
-      "css": ["content.css"]
+      "js": ["js/content.js"],
+      "css": ["css/content.css"]
     }
   ],
-
+  //web_accessible_resources are expected to be usable in the context of a web page.
+  //for example: if you want to load an image on youtube, you must define image file name here in a string.
+  "web_accessible_resources": ["contentScript/webAccessibleResources/*"],
   //Allows users to customise the behavior of an extension by providing an options page
-  //remove the below line if you don't need an option page.
-  "options_page": "options/options.html",
+  "options_page": "options.html",
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["js/background.js"],
     "persistent": false
   },
-  "browser_action": { "default_title": "Chrome Template" },
-  "icons": { "16": "16.png", "48": "48.png", "128": "128.png" },
-  //web_accessible_resources are  are expected to be usable in the context of a web page.
-  //for example: if you want to load an image on youtube, you must define image file name here in a string.
-  //remove the below line if you don't need it
-  "web_accessible_resources": ["webAccessibleResources/*"],
+  "browser_action": {
+    "default_title": "Chrome Extension Template",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
   //ie: if you have an API and want to connect to it via content page/extension, you need to define the matched domain here.
-  //remove the below line if you don't need it
   "externally_connectable": { "matches": ["*://*.yourdomain.com/*"] }
 }

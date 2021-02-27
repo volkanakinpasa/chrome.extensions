@@ -1,21 +1,34 @@
-console.log('content.js');
+console.log('content script');
 
 //Listens message from background page or from popup page
 //message: any type, string, number, json object...
 //sender: message sender
 //sendResponse: is a callback function
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  log('Got message from background page or : ' + msg);
-  if (message != undefined) {
+  if (message) {
     if (message.type == 'sayHi') {
-      log('hello', { data: message.data });
-      sendResponse('said hi'); //this could be a any type, string, number, json object...
+      console.log('hello', { data: message.data });
+      sendResponse('done'); //this could be a any type, string, number, json object...
     } else if (message.type == 'showAlert') {
       alert('hello');
-      sendResponse('alerted'); //this could be a any type, string, number, json object...
+      sendResponse('done'); //this could be a any type, string, number, json object...
     }
   }
 });
+
+function injectHtml() {
+  //EXAMPLE 4 - Add feedback text in DOM
+  const footerName = 'chrome-template-footer';
+  const container = window.document.createElement('div');
+  container.id = footerName;
+  container.className = footerName;
+  container.innerHTML = 'Feedback';
+  window.document.body.appendChild(container);
+  //remove it in 10 seconds.
+  // setTimeout(() => {
+  //   window.document.body.removeChild(container);
+  // }, 1000);
+}
 
 const onLoad = () => {
   //EXAMPLE 1
@@ -35,17 +48,8 @@ const onLoad = () => {
   //EXAMPLE 3
   console.log('Title: ', document.title);
 
-  //EXAMPLE 4 - Add feedback text in DOM
-  const footerName = 'chrome-template-footer';
-  const container = window.document.createElement('div');
-  container.id = footerName;
-  container.className = footerName;
-  container.innerHTML = 'Feedback';
-  window.document.body.appendChild(container);
-  //remove it in 10 seconds.
-  setTimeout(() => {
-    window.document.body.removeChild(container);
-  }, 10000);
+  //EXAMPLE 4
+  injectHtml();
 };
 
 window.addEventListener('load', onLoad, false);
