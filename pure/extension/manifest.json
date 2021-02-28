@@ -40,5 +40,5 @@
     "128": "icons/128.png"
   },
   //ie: if you have an API and want to connect to it via content page/extension, you need to define the matched domain here.
-  "externally_connectable": { "matches": ["*://*.yourdomain.com/*"] }
+  "externally_connectable": { "matches": ["*://*.github.com/*"] }
 }
