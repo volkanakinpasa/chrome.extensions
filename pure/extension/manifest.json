@@ -14,16 +14,16 @@
   "permissions": ["activeTab", "storage", "*://*/*"],
 
   //content_scripts run on the web pages user visits. ie. on youtube.com
-  //in this case content.js and content.css will be loaded on youtube.com.
+  //in this case contentScript.js and content.css will be loaded on youtube.com.
   "content_scripts": [
     {
-      "matches": ["*://*/*"],
+      "matches": ["*://*.youtube.com/*"],
       "js": ["js/contentScript.js"],
       "css": ["css/content.css"]
     }
   ],
   //web_accessible_resources are expected to be usable in the context of a web page.
-  //for example: if you want to load an image on youtube, you must define image file name here in a string.
+  //for example: if you want to load an image on youtube, you must define image file path and name here in a string.
   "web_accessible_resources": ["contentScript/webAccessibleResources/*"],
   //Allows users to customise the behavior of an extension by providing an options page
   "options_page": "options.html",
