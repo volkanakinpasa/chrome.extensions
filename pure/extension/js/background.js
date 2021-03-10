@@ -18,7 +18,7 @@ function setStorage(data) {
   //you must add storage permission in manifest.json.
   //manigest.json > "permissions": [storage]
   chrome.storage.sync.set(data, function () {
-    console.log('Storage is set');
+    console.log('Storage is set', data);
   });
 }
 
@@ -33,7 +33,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
   if (details.reason == 'install') {
     console.log('onInstalled listener > extension is installed');
     setStorage({ key: 'value' });
-    openTab(`chrome-extension://${chrome.runtime.id}/options/options.html`);
+    openTab(`chrome-extension://${chrome.runtime.id}/options.html`);
   } else if (details.reason == 'update') {
     console.log('onInstalled listener > extension is updated');
     setBadgeText('Up!');
@@ -54,34 +54,19 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       setBadgeText(message.data);
       sendResponse('Done');
       break;
+    case 'storageOnchangeComplete':
+      console.log('storage has been updated', message.data);
+      break;
   }
 });
 
-chrome.runtime.setUninstallURL(`http://localhost:8080/uninstalled`);
+chrome.runtime.setUninstallURL(
+  `https://media.giphy.com/media/kqu0JnieiuhGw/source.gif`
+);
 
-// chrome.storage.onChanged.addListener(function (changes, namespace) {
-
-//   for (const key in changes) {
-//     const storageChange = changes[key];
-//     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//       chrome.tabs.sendMessage(tabs[0].id, {
-//         type: 'storageOnchangeComplete',
-//         data: {
-//           key,
-//           namespace,
-//           oldValue: storageChange.oldValue,
-//           newValue: storageChange.newValue,
-//         },
-//       });
-//     });
-//   }
-// });
-
-// //send message to the current tab(context.js)
-// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//   chrome.tabs.sendMessage(
-//     tabs[0].id,
-//     { type: 'sayHi', data: { name: 'John' } },
-//     function (response) {}
-//   );
-// });
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+  for (const key in changes) {
+    const storageChange = changes[key];
+    console.log('storage has been updated', storageChange);
+  }
+});

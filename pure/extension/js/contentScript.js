@@ -54,6 +54,8 @@ const onLoad = () => {
 
   //EXAMPLE 3
   console.log('Title: ', document.title);
+
+  injectHtml();
 };
 
 function sendTestApiRequest() {

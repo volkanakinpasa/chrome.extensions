@@ -1,6 +1,6 @@
 {
-    "appDesc": {
-        "message": "Add a song to Spotify from YouTube, Vimeo etc.",
-        "description": "Add a song to Spotify from YouTube, Vimeo etc."
-    }
+  "appDesc": {
+    "message": "Extension message",
+    "description": "Extension description"
+  }
 }
