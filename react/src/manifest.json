@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Chrome Extensin",
+  "short_name": "Chrome Extensin",
+  "description": "Chrome Extensin",
+  "version": "0.0.1",
+  "permissions": ["activeTab", "storage"],
+  "content_scripts": [
+    {
+      "matches": ["*://www.google.com/*"],
+      "js": ["content.bundle.js"]
+    }
+  ],
+  "options_page": "options.html",
+  "background": {
+    "page": "background.html"
+  },
+  "browser_action": {
+    "default_title": "Extension React"
+  },
+
+  "web_accessible_resources": ["web_accessible_resources/*"],
+  "externally_connectable": {
+    "matches": []
+  }
+}
