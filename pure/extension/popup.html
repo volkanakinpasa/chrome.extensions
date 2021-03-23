@@ -11,94 +11,73 @@
     <script src="./js/popup.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-white">
       Chrome Extension Template
     </nav>
 
     <div class="m-4">
       <h3 class="text-center">Popup Page</h3>
+      <hr />
+      <h3>You will find scripts of</h3>
+      <br />
+      <div># How to read the title of the current page</div>
       <div>
-        <div>You are on "<span id="title"></span>" page.</div>
         <sub
-          >It reads the title of the current page by using
-          <code>chrome.tabs.query</code></sub
+          >You are on
+          <span id="title" class="bg-primary text-white"></span>
+          page.</sub
         >
       </div>
-
       <hr />
+      <div># How to open a new tab from Popup Page</div>
       <div>
-        <div>Open Google in a new tab</div>
-        <div>
-          <button type="button" class="btn btn-primary" id="button-open-tab">
-            Open
-          </button>
-          <div>
-            <sub
-              >It opens a new tab and visits Google by using
-              <code>chrome.tabs.create</code></sub
-            >
-          </div>
-        </div>
+        <button type="button" class="btn btn-primary" id="button-open-tab">
+          Open a New Tab
+        </button>
       </div>
       <hr />
+      <div># How to send a message object to Background Script</div>
       <div>
-        <div>Send a message to background.js</div>
         <button type="button" class="btn btn-primary" id="button-send-message">
-          Send
+          Send a Message to Background
         </button>
-        <div>
-          <sub
-            >It sends a message to background.js in order to set a short text on
-            the badge(over the icon) by using
-            <code>chrome.runtime.sendMessage</code></sub
-          >
-        </div>
       </div>
 
       <hr />
 
       <div>
-        <div>
-          Send a message to content.js and then send an XHR request to your API
-          from popup page
-        </div>
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="button-send-xhr-request"
-        >
-          Send
-        </button>
-        <div>
-          <sup>
-            In this case it will first sends a message to content.js and then
-            the content.js will send an XHR request to your api let's say
-            api.github.com to fetch a repository. content.js will get the
-            response from api and send it back to popup page. Right click here >
-            "inspect" to see the responded data in console. to see the XHR
-            request, open Devtools > Network on the active tab.
-          </sup>
-        </div>
+        # How to send a message object to Content Script and send an XHR request
+        to your API
       </div>
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="button-send-xhr-request"
+      >
+        Send a Message to Content Script
+      </button>
 
       <hr />
 
+      <div>Inject an HTML object into current tab</div>
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="button-inject-html-in-content"
+      >
+        Inject Feedback
+      </button>
       <div>
-        <div>Inject an HTML object into current tab</div>
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="button-inject-html-in-content"
-        >
-          Inject Feedback
-        </button>
-        <div>
-          <sup>
-            In this case it will first sends a message to content.js and then
-            the content.js will inject a simple html object inside the current
-            tab. You will see "Feedback" container on the right buttom.
-          </sup>
-        </div>
+        <sup>
+          This approach here is slightly different than sending a message to
+          Background Script. You first need to find which window and which tab
+          you should send the message by giving query
+          <code>{ active: true, currentWindow: true }</code>. Example: Let's say
+          you have two tabs open, one is YouTube and another one is Google and
+          you are currently on the YouTube page. That means your active tab is
+          YouTube. And you want to send a message from Popup Page to YouTube
+          content page.
+        </sup>
       </div>
     </div>
   </body>
