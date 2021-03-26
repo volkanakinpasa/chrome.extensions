@@ -1,5 +1,6 @@
 function load() {
   readTitle();
+  readGoogleImageElement();
 
   $('#button-send-message').on('click', function () {
     sendMessageToBackground();

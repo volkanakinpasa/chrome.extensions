@@ -1,0 +1,26 @@
+{
+  "name": "chrome.extensions.docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "docsify serve "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/volkanakinpasa/chrome.extensions.docs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/volkanakinpasa/chrome.extensions.docs/issues"
+  },
+  "homepage": "https://github.com/volkanakinpasa/chrome.extensions.docs#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

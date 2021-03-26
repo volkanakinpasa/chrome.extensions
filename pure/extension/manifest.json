@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Chrome Template",
+  "name": "Chrome Template Pure",
   "short_name": "chrome_template",
   //reads from _locales folder based on default_locale below
   "description": "__MSG_appDesc__",
@@ -17,14 +17,14 @@
   //in this case contentScript.js and content.css will be loaded on youtube.com.
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*"],
+      "matches": ["*://www.google.com/*"],
       "js": ["js/contentScript.js"],
       "css": ["css/content.css"]
     }
   ],
   //web_accessible_resources are expected to be usable in the context of a web page.
   //for example: if you want to load an image on youtube, you must define image file path and name here in a string.
-  "web_accessible_resources": ["contentScript/webAccessibleResources/*"],
+  "web_accessible_resources": ["webAccessibleResources/*"],
   //Allows users to customise the behavior of an extension by providing an options page
   "options_page": "options.html",
   "background": {

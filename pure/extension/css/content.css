@@ -2,7 +2,7 @@
   position: fixed;
   bottom: 0;
   right: 0;
-  width: 100px;
+  width: auto;
   height: auto;
   display: flex;
   justify-items: center;
@@ -21,4 +21,32 @@
   -ms-transition-duration: 0.35s;
   -o-transition-duration: 0.35s;
   transition-duration: 0.35s;
+  z-index: 9999;
+}
+
+.chrome-template-loading {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+}
+
+.chrome-template-loading img {
+  position: relative;
+  background-color: white;
+  padding: 10px;
+  margin: auto;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  border-radius: 0.25rem;
+  font-size: 1.5rem;
+}
+
+.chrome-template-loading-show {
+  display: flex;
 }

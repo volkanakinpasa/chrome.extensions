@@ -13,15 +13,33 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       alert('hello');
       sendResponse('done'); //this could be a any type, string, number, json object...
     } else if (message.type == 'sendXhrRequest') {
+      loading(true);
       sendTestApiRequest().then(function (data) {
-        sendResponse(data);
+        setTimeout(function () {
+          sendResponse(data);
+          loading(false);
+        }, 2000);
       });
       return true;
     } else if (message.type == 'injectHtml') {
       injectHtml();
+    } else if (message.type == 'readGoogleImageElement') {
+      console.log({ message, sender, sendResponse });
+      readGoogleImageElement(sendResponse);
     }
   }
 });
+
+function injectScript() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.async = true;
+  script.onload = function () {
+    // remote script has loaded
+  };
+  script.src = 'https://...';
+  document.getElementsByTagName('head')[0].appendChild(script);
+}
 
 function injectHtml() {
   //EXAMPLE 4 - Add feedback text in DOM
@@ -29,7 +47,8 @@ function injectHtml() {
   const container = window.document.createElement('div');
   container.id = footerName;
   container.className = footerName;
-  container.innerHTML = 'Feedback';
+  container.innerHTML =
+    '<iframe width="560" height="315" src="https://www.youtube.com/embed/QHDRRxKlimY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
   window.document.body.appendChild(container);
   // remove it in 10 seconds.
   setTimeout(() => {
@@ -37,10 +56,38 @@ function injectHtml() {
   }, 4000);
 }
 
+const loadingElementId = 'chrome-template-loading';
+function injectLoading() {
+  //EXAMPLE 4 - Add feedback text in DOM
+  const container = window.document.createElement('div');
+  container.id = loadingElementId;
+  container.className = loadingElementId;
+  var imgURL = chrome.runtime.getURL('webAccessibleResources/loading.gif');
+  container.innerHTML =
+    `<img src="` +
+    imgURL +
+    `" width="100" height="100"/>
+  `;
+  window.document.body.appendChild(container);
+}
+
+function readGoogleImageElement(sendResponse) {
+  if (
+    location.host == 'www.google.com' &&
+    location.href.indexOf('/search?q') == -1
+  ) {
+    const img = document.querySelector('.lnXdpd');
+    if (img) {
+      sendResponse(img.src);
+    }
+    sendResponse(null);
+  } else sendResponse(null);
+}
+
 const onLoad = () => {
   //EXAMPLE 1
   //folder webAccessibleResources is define in web_accessible_resources in manifest.json
-  var imgURL = chrome.runtime.getURL('webAccessibleResources/spotify.png');
+  var imgURL = chrome.runtime.getURL('webAccessibleResources/loading.png');
   console.log('content.js', { imgURL });
 
   //EXAMPLE 2
@@ -55,7 +102,7 @@ const onLoad = () => {
   //EXAMPLE 3
   console.log('Title: ', document.title);
 
-  injectHtml();
+  injectLoading();
 };
 
 function sendTestApiRequest() {
@@ -79,6 +126,12 @@ function sendTestApiRequest() {
       reject(err);
     }
   });
+}
+
+function loading(active) {
+  const loading = document.getElementById(loadingElementId);
+  if (active == true) loading.classList.add('chrome-template-loading-show');
+  else loading.classList.remove('chrome-template-loading-show');
 }
 
 window.addEventListener('load', onLoad, false);

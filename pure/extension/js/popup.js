@@ -8,6 +8,30 @@ function readTitle() {
   });
 }
 
+function readGoogleImageElement() {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    var activeTab = tabs[0];
+    chrome.tabs.sendMessage(
+      activeTab.id,
+      {
+        type: 'readGoogleImageElement',
+      },
+      function (callbackData) {
+        console.log(
+          'Message sent to background from popup page.',
+          callbackData
+        );
+        if (callbackData) {
+          const img = document.createElement('img');
+          img.src = callbackData;
+          img.style = 'width: 100%';
+          document.getElementById('p-logo').appendChild(img);
+        }
+      }
+    );
+  });
+}
+
 function sendMessageToBackground() {
   chrome.runtime.sendMessage(
     {
@@ -42,6 +66,9 @@ function sendTestApiRequestFromContentjs() {
       { type: 'sendXhrRequest' },
       function (callbackData) {
         console.log('Message sent to content.js from popup.', callbackData);
+        document.getElementById(
+          'button-send-xhr-request-from-contentjs'
+        ).innerText = 'XHR request is done ' + callbackData.size;
       }
     );
   });
